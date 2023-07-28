@@ -1,0 +1,61 @@
+{% include "header.html" %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1516383740770-fbcc5ccbece0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Be more than you think</h1>
+            <span class="subheading">My journey to transform my life</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <!-- For loop for all posts in database -->
+        {% for post in all_posts %}
+        <div class="post-preview">
+          <!-- Redirect to specific post -->
+          <a href="{{ url_for('show_post', post_id=post.id) }}">
+            <!-- Title of the post -->
+            <h2 class="post-title">
+              {{post.title}}
+            </h2>
+            <!-- Subtitle of the post -->
+            <h3 class="post-subtitle">
+              {{post.subtitle}}
+            </h3>
+          </a>
+          <!-- Author and date of the post -->
+          <p class="post-meta">Posted by
+            <a href="#">{{post.author.name}}</a>
+            on {{post.date}}
+            <!-- If user is admin he can delete the post -->
+            {% if user_id == "1" %}
+            <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
+            {% endif %}
+          </p>
+        </div>
+        <hr>
+        <!-- End for loop for all posts -->
+        {% endfor %}
+        <!-- If user is admin he can add new post -->
+        {% if user_id == "1" %}
+        <!-- New Post -->
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="{{url_for('add_new_post')}}">Create New Post</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <hr>
+
+{% include "footer.html" %}
